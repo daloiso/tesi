@@ -5,7 +5,7 @@ import subprocess
 import os
 
 # Percorso del tuo SoundFont (.sf2)
-soundfont_path = "path_to_your_soundfont.sf2"
+soundfont_path = "/mnt/c/uni/tesi2/tesi/prove_python/Bass Guitars.sf2"
 
 # Testo da "cantare"
 testo = "Ciao! Questo è un esempio di sintesi vocale che canta."
@@ -43,7 +43,7 @@ subprocess.run([
 
 # Caricamento del file WAV della melodia
 melodia_audio = AudioSegment.from_file(wav_filename)
-
+melodia_audio = melodia_audio + 30
 # Unione della melodia strumentale con la voce
 canzone_finale = melodia_audio.overlay(voce_audio)
 
