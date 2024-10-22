@@ -7,6 +7,7 @@ import os
 # Percorso del tuo SoundFont (.sf2)
 soundfont_path = "/mnt/c/uni/tesi2/tesi/prove_python/Bass Guitars.sf2"
 
+
 # Testo da "cantare"
 testo = "Ciao! Questo è un esempio di sintesi vocale che canta."
 
