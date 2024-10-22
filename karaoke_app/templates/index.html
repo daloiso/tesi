@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Karaoke App</title>
+</head>
+<body>
+    <h1>App Karaoke</h1>
+    <form action="/combine" method="POST">
+        <label for="music_file">Seleziona la musica:</label>
+        <select name="music_file" id="music_file">
+            <option value="musica1.mp3">Musica 1</option>
+            <option value="musica2.mp3">Musica 2</option>
+        </select>
+        <br>
+        <label for="user_text">Canta qui:</label>
+        <textarea name="user_text" id="user_text" rows="4"></textarea>
+        <br>
+        <button type="submit">Inizia Karaoke</button>
+    </form>
+</body>
+</html>

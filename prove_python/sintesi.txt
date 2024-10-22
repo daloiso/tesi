@@ -1,0 +1,4 @@
+gtts sintesi vocale
+pydub per mix export di tracce
+numpy per creazione e modifica di onde sonore creando note o intonando voce
+music21 per creare note musicali non storpiate
