@@ -1,0 +1,3 @@
+#!/home/pasquale/Scrivania/tesi/tesi/bin/python
+from numba.pycc import main
+main()
