@@ -1,4 +1,4 @@
-#!/home/pasquale/Scrivania/tesi/tesi/bin/python3
+#!/home/pasquale/Scrivania/tesi/tesi/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
