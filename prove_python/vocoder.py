@@ -1,6 +1,7 @@
 import numpy as np
 import librosa
 import matplotlib.pyplot as plt
+import scipy.signal as signal
 
 # Load the carrier (synthesized sound) and modulator (voice) signals
 carrier, sr = librosa.load('carrier.wav', sr=None)
@@ -52,6 +53,23 @@ def istft(stft_matrix, hop_size):
 output_signal = istft(modulated_stft, hop_size)
 #Normalize and Save the Output
 output_signal = output_signal / np.max(np.abs(output_signal))
+# Specifica la frequenza di taglio
+cutoff_frequency = 500  # in Hertz
+
+# Calcola il normale cutoff (Nyquist Frequency)
+nyquist = 0.5 * sr
+normal_cutoff = cutoff_frequency / nyquist
+
+# Progetta il filtro passa-basso e passa alto
+b, a = signal.butter(4, normal_cutoff, btype='low', analog=False)
+d, c = signal.butter(4, normal_cutoff, btype='high', analog=False)
+
+
+# Applica il filtro
+output_signal = signal.filtfilt(d, c, output_signal)
+
+
+
 if len(output_signal) < len(carrier):
     output_signal = np.pad(output_signal, (0, len(carrier) - len(output_signal)), 'constant')
 else:
