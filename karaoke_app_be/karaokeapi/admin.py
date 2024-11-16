@@ -1,3 +1,4 @@
 from django.contrib import admin
 
-# Register your models here.
+from karaokeapi import models
+admin.site.register(models.UserProfile)
