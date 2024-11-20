@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 from django.conf.global_settings import AUTH_USER_MODEL
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,9 +25,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-n+la^b$f@p&&#3+x3xz*-$*hj$rcz762s+=qg+b0y-fvd)5mta'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(int(os.environ.get('DEBUG',1)))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+
+    '127.0.0.1'
+]
 
 
 # Application definition

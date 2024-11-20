@@ -6,6 +6,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.settings import api_settings
 from rest_framework import filters
+from rest_framework.permissions import IsAuthenticated
 
 from karaokeapi import serializer
 from karaokeapi import models
@@ -95,6 +96,8 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     permission_classes = (permission.UpdateOwnProfile,)
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name','email')
+    #def perform_create(self, serializer):
+    #   serializer.save(user_profile=self.request.user)
 
 class UserLoginApiView(ObtainAuthToken):
    """Handle creating user authentication tokens"""
