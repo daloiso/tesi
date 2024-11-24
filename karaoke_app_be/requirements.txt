@@ -4,4 +4,4 @@ setuptools<65
 numpy<1.23
 llvmlite<0.39
 numba<0.55
-magenta
+magenta==2.1.3
