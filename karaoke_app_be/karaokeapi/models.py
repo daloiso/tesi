@@ -33,8 +33,9 @@ class UserProfileManager(BaseUserManager):
 
 
 class TeachingActivities(models.Model):
-    title = models.CharField(max_length=200)
-    path = models.CharField(max_length=200)
+    title = models.CharField(max_length=200,  unique=True)
+    fileMp3Name = models.CharField(max_length=200)
+    fileMp3 = models.FileField(upload_to='activities/')
     textSong = models.CharField(max_length=500)
 
     def __str__(self):
@@ -42,8 +43,11 @@ class TeachingActivities(models.Model):
 
 
 class KeyWordSong(models.Model):
-    word = models.CharField(max_length=200)
-    imagePath=models.CharField(max_length=200)
+    word = models.CharField(max_length=200, unique=True)
+    wordsToDisplay = models.CharField(max_length=200)
+    imageName=models.CharField(max_length=200)
+    image = models.FileField(upload_to='keywordsImage/')
+    wordSyntetized = models.FileField(upload_to='words/')
     time_word = models.TimeField()
     teachingActivity = models.ForeignKey(TeachingActivities, on_delete=models.CASCADE, related_name='keyWordSongs')
 
