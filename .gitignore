@@ -161,3 +161,4 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 /prove_magenta/magenta/models/*
+/karaoke_app_fe/node_modules/*

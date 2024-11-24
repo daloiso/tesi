@@ -30,12 +30,35 @@ class UserProfileManager(BaseUserManager):
         return user
 
 
+
+
+class TeachingActivities(models.Model):
+    title = models.CharField(max_length=200)
+    path = models.CharField(max_length=200)
+    textSong = models.CharField(max_length=500)
+
+    def __str__(self):
+        return self.title
+
+
+class KeyWordSong(models.Model):
+    word = models.CharField(max_length=200)
+    imagePath=models.CharField(max_length=200)
+    time_word = models.TimeField()
+    teachingActivity = models.ForeignKey(TeachingActivities, on_delete=models.CASCADE, related_name='keyWordSongs')
+
+    def __str__(self):
+        return self.word
+
 class UserProfile(AbstractBaseUser, PermissionsMixin):
     """Database model for users in the system"""
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+
+    teachingActivities = models.ManyToManyField(TeachingActivities, related_name='activities')
+    #teachingActivities = up.teachingActivities.all()
 
     objects = UserProfileManager()
 
@@ -53,3 +76,5 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         """Return string representation of user"""
         return self.email
+
+
