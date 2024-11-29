@@ -5,3 +5,14 @@ numpy<1.23
 llvmlite<0.39
 numba<0.55
 magenta==2.1.3
+visual_midi
+gtts
+pyfluidsynth
+pyttsx3
+midi2audio
+gtts==2.5.4
+#conda install setuptools
+more-itertools
+ddsp==3.7.0
+#torch
+
