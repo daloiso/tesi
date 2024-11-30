@@ -11,81 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 from karaokeapi import serializer
 from karaokeapi import models
 from karaokeapi import permission
-
-class HelloApiView(APIView):
-    """Test API View"""
-    serializer_class=serializer.HelloSerializer
-    def get(self, request, format=None):
-        """Returns a list of APIView features"""
-
-        an_apiview = [
-            'Uses HTTP methods as functions (get, post, patch, put, delete)',
-            'Is similar to a traditional Django View',
-            'Gives you the most control over your logic',
-            'Is mapped manually to URLs',
-        ]
-
-        return Response({'message': 'Hello!', 'an_apiview': an_apiview})
-
-    def post(self,request):
-        """create a hello message with our name"""
-        serializer = self.serializer_class(data=request.data)
-
-        if serializer.is_valid():
-            name = serializer.validated_data.get('name')
-            message = f'Hello {name}'
-            return Response({'message':message})
-        else:
-            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-
-
-class HelloViewSet(viewsets.ViewSet):
-    """Test API ViewSet"""
-
-    def list(self, request):
-        """Return a hello message."""
-
-        a_viewset = [
-            'Uses actions (list, create, retrieve, update, partial_update)',
-            'Automatically maps to URLS using Routers',
-            'Provides more functionality with less code',
-        ]
-
-        return Response({'message': 'Hello!', 'a_viewset': a_viewset})
-
-    def create(self, request):
-        """Create a new hello message."""
-        serializer = self.serializer_class(data=request.data)
-
-        if serializer.is_valid():
-            name = serializer.validated_data.get('name')
-            message = f'Hello {name}!'
-            return Response({'message': message})
-        else:
-            return Response(
-                serializer.errors,
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-    def retrieve(self, request, pk=None):
-        """Handle getting an object by its ID"""
-
-        return Response({'http_method': 'GET'})
-
-    def update(self, request, pk=None):
-        """Handle updating an object"""
-
-        return Response({'http_method': 'PUT'})
-
-    def partial_update(self, request, pk=None):
-        """Handle updating part of an object"""
-
-        return Response({'http_method': 'PATCH'})
-
-    def destroy(self, request, pk=None):
-        """Handle removing an object"""
-
-        return Response({'http_method': 'DELETE'})
+from karaokeapi.serializer import ActivitySerializer
 
 
 class UserProfileViewSet(viewsets.ModelViewSet):
@@ -102,3 +28,36 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 class UserLoginApiView(ObtainAuthToken):
    """Handle creating user authentication tokens"""
    renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
+
+
+
+class ActivityView(APIView):
+    authentication_classes = [TokenAuthentication]  # Use Token Authentication
+    permission_classes = [IsAuthenticated, permission.OnlyMe]  # Only authenticated users can access
+
+    def get(self, request):
+
+        return Response({'message': 'You are authenticated!'})
+
+    def post(self,request):
+        #user = request.user
+
+        #if user.username != 'pasquale.daloiso@gmail.com':
+        #    return Response(status=status.HTTP_401_UNAUTHORIZED)
+        # Ensure the user is authenticated
+        if not request.user.is_authenticated:
+            return Response({"detail": "Authentication credentials were not provided."},
+                            status=status.HTTP_401_UNAUTHORIZED)
+
+        # Apply the custom permission
+        permission1 = permission.OnlyMe()
+        if not permission1.has_object_permission(request, None, None):
+            return Response({"detail": "You do not have permission to create a product."},
+                            status=status.HTTP_403_FORBIDDEN)
+
+        serializer1 = ActivitySerializer(data=request.data)
+
+        if serializer1.is_valid():
+            serializer1.save()
+            return Response(serializer1.data, status=status.HTTP_201_CREATED)
+        return Response(serializer1.errors, status=status.HTTP_400_BAD_REQUEST)

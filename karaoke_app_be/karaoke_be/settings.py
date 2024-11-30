@@ -131,3 +131,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL='karaokeapi.UserProfile'
+
+MEDIA_URL = '/media/'  # URL to access files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

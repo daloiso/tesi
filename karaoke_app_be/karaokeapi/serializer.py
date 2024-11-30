@@ -1,10 +1,13 @@
 from rest_framework import serializers
 from karaokeapi import models
+from karaokeapi.models import TeachingActivities
 
 
-class HelloSerializer(serializers.Serializer):
-    """Serializes a name field for testing out APIView"""
-    name = serializers.CharField(max_length=10)
+class ActivitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TeachingActivities
+        fields = ['title', 'fileMp3Name', 'fileMp3', 'textSong',]
+
 
 class UserProfileSerializer(serializers.ModelSerializer):
     """Serializes a user profile object"""
