@@ -33,11 +33,26 @@ def load_audio(filepath):
     audio, sr = librosa.load(filepath, sr=16000)
     return audio, sr
 
-import tensorflow as tf
-import librosa
-import pretty_midi
-import numpy as np
-import soundfile as sf
+
+#import torch
+#import torchaudio
+#from melgan import MelGAN  # Assicurati di avere il modello di MelGAN pre-addestrato
+
+#def apply_melgan_vocoder(input_audio_path, output_audio_path, midi_path):
+    # Carica l'audio della voce
+#    waveform, sample_rate = torchaudio.load(input_audio_path)
+
+    # Carica il modello MelGAN pre-addestrato (o usa un modello personalizzato)
+#    melgan_model = MelGAN.load_pretrained('melgan_model.pth')
+
+    # Converti la traccia MIDI in mel-spectrogrammi
+#    mel_spectrogram = midi_to_mel_spectrogram(midi_path)
+
+    # Usa il modello vocoder per generare la traccia audio modificata
+#    modified_waveform = melgan_model(mel_spectrogram)
+
+    # Salva l'audio risultante
+#    torchaudio.save(output_audio_path, modified_waveform, sample_rate)
 
 # Carica il soundfont di qualità
 #sound_font = "Bass Guitars.sf2"  # Es: "GeneralUser.sf2"
@@ -53,6 +68,12 @@ fs.midi_to_audio(midi_file, output_audio)
 lyrics = "Dopo aver giocato, metti i giocattoli a posto, ogni cosa al suo posto, così la stanza è più bella, è facile, basta fare attenzione!"
 
 generate_vocal_audio(lyrics, 'vocals.mp3')
+
+
+mp3_to_wav('vocals.mp3','path_to_vocal_audio.wav')
+
+
+#apply_melgan_vocoder('path_to_vocal_audio.wav', 'output_audio_path.wav', '5.mid')
 
 #vocoder_url = '/'
 #vocoder_model = hub.load(vocoder_url)
