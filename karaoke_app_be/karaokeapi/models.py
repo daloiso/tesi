@@ -29,6 +29,11 @@ class UserProfileManager(BaseUserManager):
 
         return user
 
+    def get_teachings(self, iduser):
+        user = self.model(id=iduser)
+        return user.teachingActivities
+
+
 class TeachingActivities(models.Model):
     title = models.CharField(max_length=200,  unique=True)
     fileMp3Name = models.CharField(max_length=200)

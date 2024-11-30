@@ -12,7 +12,9 @@ from karaokeapi import serializer
 from karaokeapi import models
 from karaokeapi import permission
 from karaokeapi.serializer import ActivitySerializer
-
+from django.http import FileResponse
+from django.conf import settings
+import os
 
 class UserProfileViewSet(viewsets.ModelViewSet):
     """Handle creating, creating and updating profiles"""
@@ -36,8 +38,13 @@ class ActivityView(APIView):
     permission_classes = [IsAuthenticated, permission.OnlyMe]  # Only authenticated users can access
 
     def get(self, request):
-
-        return Response({'message': 'You are authenticated!'})
+        if not request.user.is_authenticated:
+            return Response({"detail": "Authentication credentials were not provided."},
+                            status=status.HTTP_401_UNAUTHORIZED)
+        user = request.user.id
+        teaching_activities = models.UserProfile.objects.get_teachings(user)
+        serializer1 = ActivitySerializer(teaching_activities, many=True)
+        return Response(serializer1.data, status=status.HTTP_200_OK)
 
     def post(self,request):
         #user = request.user
@@ -61,3 +68,37 @@ class ActivityView(APIView):
             serializer1.save()
             return Response(serializer1.data, status=status.HTTP_201_CREATED)
         return Response(serializer1.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class FilesView(APIView):
+    authentication_classes = [TokenAuthentication]  # Use Token Authentication
+    permission_classes = [IsAuthenticated, permission.OnlyMe]
+    def get(self, request):
+        if not request.user.is_authenticated:
+            return Response({"detail": "Authentication credentials were not provided."},
+                            status=status.HTTP_401_UNAUTHORIZED)
+        user = request.user.id
+        type = request.GET.get('type')
+        if type=='mp3':
+            title = request.GET.get('title')
+
+            teaching_activities = models.UserProfile.objects.get_teachings(user)
+            filtered_activities = teaching_activities.filter(title=title)
+            activity_exists = filtered_activities.exists()
+            if activity_exists:
+                file_path = os.path.join(settings.MEDIA_ROOT, 'activities/'+filtered_activities[0].fileMp3Name)
+                if os.path.exists(file_path):
+                    # Open the file in binary mode
+                    file = open(file_path, 'rb')  # Don't use 'with' here to prevent it from closing immediately
+                    # Pass the file object to FileResponse
+                    response = FileResponse(file)
+                    response['Content-Disposition'] = f'attachment; filename="{filtered_activities[0].fileMp3Name}"'
+                    return response
+                else:
+                    return Response({"detail": "file not found"},
+                        status=status.HTTP_404_NOT_FOUND)
+            else:
+                return Response({"detail": "you don't have the permission."},
+                                status=status.HTTP_401_UNAUTHORIZED)
+        return Response({"detail": "wrong parameters"},
+                        status=status.HTTP_401_UNAUTHORIZED)
