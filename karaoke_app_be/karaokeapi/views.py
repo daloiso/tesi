@@ -81,6 +81,7 @@ class FilesView(APIView):
         type = request.GET.get('type')
         if type=='mp3':
             title = request.GET.get('title')
+            stream = request.GET.get('stream')
 
             teaching_activities = models.UserProfile.objects.get_teachings(user)
             filtered_activities = teaching_activities.filter(title=title)
@@ -92,6 +93,8 @@ class FilesView(APIView):
                     file = open(file_path, 'rb')  # Don't use 'with' here to prevent it from closing immediately
                     # Pass the file object to FileResponse
                     response = FileResponse(file)
+                    if stream:
+                        response['Content-Type'] = 'audio/mpeg'
                     response['Content-Disposition'] = f'attachment; filename="{filtered_activities[0].fileMp3Name}"'
                     return response
                 else:
