@@ -1,32 +1,32 @@
-import { List, ListItem } from "@chakra-ui/react"
+import { List } from "@chakra-ui/react";
 import { FaHome } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { GrContact } from "react-icons/gr";
-import { NavLink } from "react-router-dom"
-
-
+import { NavLink } from "react-router-dom";
+import { Link as ChakraLink, Stack } from "@chakra-ui/react";
 const Sidebar = () => {
   return (
-    <List color="white" fontSize="1.2em" spacing={4}>
-      <ListItem>
+    <Stack>
+      <ChakraLink asChild>
         <NavLink to="/">
           <FaHome />
           Home
         </NavLink>
-      </ListItem>
-      <ListItem>
+      </ChakraLink>
+      <ChakraLink asChild>
         <NavLink to="dashboard">
           <MdDashboard />
           Dashboard
         </NavLink>
-      </ListItem>
-      <ListItem>
+      </ChakraLink>
+
+      <ChakraLink asChild>
         <NavLink to="contact">
           <GrContact />
           Contact
         </NavLink>
-      </ListItem>
-    </List>
+      </ChakraLink>
+    </Stack>
   );
 };
 export default Sidebar;
