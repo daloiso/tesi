@@ -44,7 +44,7 @@ export default function Dashboard() {
           <CardFooter>
             <HStack>
               <Button variant="ghost" leftIcon={<FaRegPlayCircle />}>Play</Button>
-              <Button variant="ghost" leftIcon={<IoMdDownload />}>Download</Button>
+              <Button variant="ghost" leftIcon={<IoMdDownload />}  onClick={() => donwloadMusicFun(task.title)} >Download</Button>
             </HStack>
           </CardFooter>
 
@@ -59,9 +59,6 @@ import axios from 'axios';
 import { json } from 'react-router-dom';
 export const tasksLoader = async () => {
   const url = 'http://127.0.0.1:8000/api/activity/';
-  const headers = {
-    
-  };
 
   return axios.get(url, {headers: {
       'Authorization': 'Token b9862aacb7a0c2f9b1a346e8e1186607e61ecf81',
@@ -78,3 +75,32 @@ export const tasksLoader = async () => {
       return json(null);
     });
 }
+
+async function donwloadMusicFun(title)  {
+  const url = 'http://127.0.0.1:8000/api/files/?type=mp3&title='+title;
+
+  return axios.get(url, {
+    responseType: "blob",
+    headers: {
+      'Authorization': 'Token b9862aacb7a0c2f9b1a346e8e1186607e61ecf81',
+      
+    },
+    withCredentials: true,  
+  })
+    .then(response => {
+      console.log('Data:', response.data);
+      const blob = new Blob([response.data], { type: "audio/mp3" });
+
+      // Create a link to trigger the download
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = title+".mp3"; // Set the name of the file
+      link.setAttribute("download", title+".mp3");
+      link.click();
+      
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      return null;
+    });
+  }
