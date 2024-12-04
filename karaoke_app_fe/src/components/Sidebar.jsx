@@ -1,4 +1,4 @@
-import { List, ListItem } from "@chakra-ui/react"
+import { HStack, List, ListItem, Text } from "@chakra-ui/react"
 import { FaHome } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { GrContact } from "react-icons/gr";
@@ -10,20 +10,20 @@ const Sidebar = () => {
     <List color="custom.text" fontSize="1.2em" spacing={4}>
       <ListItem>
         <NavLink to="/">
-          <FaHome />
-          Home
+          <HStack><FaHome /><Text>Home</Text></HStack>
         </NavLink>
       </ListItem>
       <ListItem>
         <NavLink to="dashboard">
-          <MdDashboard />
-          Dashboard
+        <HStack><MdDashboard /><Text>
+          Dashboard</Text></HStack>
         </NavLink>
       </ListItem>
       <ListItem>
         <NavLink to="contact">
-          <GrContact />
-          Contact
+        <HStack><GrContact /><Text>
+        
+          Contact</Text></HStack>
         </NavLink>
       </ListItem>
     </List>

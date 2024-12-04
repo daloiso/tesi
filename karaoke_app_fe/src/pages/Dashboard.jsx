@@ -28,18 +28,16 @@ export default function Dashboard() {
 
           <CardHeader color="gray.700">
             <Flex gap={5}>
-              <Box w="50px" h="50px">
-              <Avatar name={task.author} src={task.img} />
-              </Box>
+              
               <Box>
                 <Heading as="h3" size="sm">{task.title}</Heading>
-                <Text>by {task.author}</Text>
+               
               </Box>
             </Flex>
           </CardHeader>
 
           <CardBody color="gray.500">
-            <Text>{task.description}</Text>
+            <Text>{task.textSong}</Text>
           </CardBody>
 
 
@@ -58,14 +56,14 @@ export default function Dashboard() {
 
 
 import axios from 'axios';
-
+import { json } from 'react-router-dom';
 export const tasksLoader = async () => {
   const url = 'http://127.0.0.1:8000/api/activity/';
   const headers = {
     
   };
 
-  axios.get(url, {headers: {
+  return axios.get(url, {headers: {
       'Authorization': 'Token b9862aacb7a0c2f9b1a346e8e1186607e61ecf81',
       'Content-Type': 'application/json'
     },
@@ -73,9 +71,10 @@ export const tasksLoader = async () => {
   })
     .then(response => {
       console.log('Data:', response.data);
-      return response.data
+      return json(response.data);
     })
     .catch(error => {
       console.error('Error:', error);
+      return json(null);
     });
 }
