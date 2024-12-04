@@ -6,12 +6,11 @@ import {
   Button, 
   Spacer, 
   HStack, 
-  
+  useToast,
 } from "@chakra-ui/react"
-import {  toaster } from "./ui/toaster"
 
 export default function Navbar() {
-
+  const toast = useToast()
 
   return (
     <Flex as="nav" p="10px" mb="60px" alignItems="center">
@@ -22,11 +21,14 @@ export default function Navbar() {
        
         <Text>il ponte</Text>
         <Button 
-          colorScheme="purple"
-          onClick={() => toaster.create({
-            title: "Logged out.",
-            description: "Arrivederci",
-            placement: 'top',
+          onClick={() => toast({
+            title: 'Logged out.',
+            description: "Uscito dal divertimento",
+            duration: 10000,
+            isClosable: true,
+            position: 'top',
+            status: 'success',
+            
           })}
         >Logout</Button>
       </HStack>
