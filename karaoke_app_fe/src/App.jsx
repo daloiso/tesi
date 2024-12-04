@@ -7,7 +7,7 @@ import {
 
 // layouts and pages
 import  RootLayout  from './layouts/RootLayout';
-import Dashboard from './pages/Dashboard'
+import Dashboard, { tasksLoader } from './pages/Dashboard'
 import Home from './pages/Home'
 import Contact from './pages/Contact';
 
@@ -16,7 +16,7 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout />}>
       <Route index element={<Home />} />
-      <Route path="dashboard" element={<Dashboard />} />
+      <Route path="dashboard" element={<Dashboard />} loader={tasksLoader} />
       <Route path="contact" element={<Contact />} />
     </Route>
   )

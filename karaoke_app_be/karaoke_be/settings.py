@@ -44,12 +44,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
     'karaokeapi',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -134,3 +136,26 @@ AUTH_USER_MODEL='karaokeapi.UserProfile'
 
 MEDIA_URL = '/media/'  # URL to access files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r'http://localhost:\d+',   # Allow localhost on any port
+    r'http://127.0.0.1:\d+',   # Allow 127.0.0.1 on any port
+]
+
+# Optional: Allow specific methods and headers if needed
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'DELETE',
+    'OPTIONS',
+]
+
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'authorization',
+    'accept',
+]
+
+# Optional: Allow credentials if needed
+CORS_ALLOW_CREDENTIALS = True

@@ -56,8 +56,26 @@ export default function Dashboard() {
   )
 }
 
-export const tasksLoader = async () => {
-  const res = await fetch('http://localhost:8000/activity')
 
-  return res.json()
+import axios from 'axios';
+
+export const tasksLoader = async () => {
+  const url = 'http://127.0.0.1:8000/api/activity/';
+  const headers = {
+    
+  };
+
+  axios.get(url, {headers: {
+      'Authorization': 'Token b9862aacb7a0c2f9b1a346e8e1186607e61ecf81',
+      'Content-Type': 'application/json'
+    },
+    withCredentials: true,  
+  })
+    .then(response => {
+      console.log('Data:', response.data);
+      return response.data
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
 }
