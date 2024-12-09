@@ -1,3 +1,6 @@
+from io import BytesIO
+
+from gtts import gTTS
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -13,7 +16,7 @@ from karaokeapi import models
 from karaokeapi import permission
 from karaokeapi.models import KeyWordSong
 from karaokeapi.serializer import ActivitySerializer, KeyWordSongSerializer
-from django.http import FileResponse
+from django.http import FileResponse, HttpResponse
 from django.conf import settings
 import os
 
@@ -180,6 +183,23 @@ class FilesView(APIView):
                 else:
                     return Response({"detail": "file not found"},
                                     status=status.HTTP_404_NOT_FOUND)
+            if type_parameter == 'sentence':
+                text = request.GET.get("sentencePar", None)
+                if not text:
+                    return Response({"error": "No sentence provided"}, status=status.HTTP_400_BAD_REQUEST)
+
+                # Generate speech using gTTS
+                tts = gTTS(text=text, lang='it')
+
+                # Save speech to a bytes buffer instead of a file
+                mp3_file = BytesIO()
+                tts.write_to_fp(mp3_file)
+                mp3_file.seek(0)
+
+                # Return the speech as an MP3 file
+                response = HttpResponse(mp3_file, content_type="audio/mpeg")
+                response['Content-Disposition'] = 'attachment; filename="speech.mp3"'
+                return response
 
         else:
             return Response({"detail": "you don't have the permission."},
