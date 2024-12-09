@@ -56,7 +56,7 @@ def load_audio(filepath):
 
 # Carica il soundfont di qualità
 #sound_font = "Bass Guitars.sf2"  # Es: "GeneralUser.sf2"
-midi_file = "5.mid"  # Il tuo file MIDI
+midi_file = "3.mid"  # Il tuo file MIDI
 output_audio = "output_audio.wav"  # File audio di output
 
 
@@ -65,14 +65,14 @@ fs = FluidSynth()
 fs.midi_to_audio(midi_file, output_audio)
 
 # Inizializza il client TTS di Google Cloud
-lyrics = "Dopo aver giocato, metti i giocattoli a posto, ogni cosa al suo posto, così la stanza è più bella, è facile, basta fare attenzione!"
+#lyrics = "Dopo aver giocato, metti i giocattoli a posto, ogni cosa al suo posto, così la stanza è più bella, è facile, basta fare attenzione!"
 
-generate_vocal_audio(lyrics, 'vocals.mp3')
-
-
-mp3_to_wav('vocals.mp3','path_to_vocal_audio.wav')
+#generate_vocal_audio(lyrics, 'vocals.mp3')
 
 
+#mp3_to_wav('vocals.mp3','path_to_vocal_audio.wav')
+
+#wav_to_mp3('audio.wav','audio_synth.mp3')
 #apply_melgan_vocoder('path_to_vocal_audio.wav', 'output_audio_path.wav', '5.mid')
 
 #vocoder_url = '/'
@@ -84,7 +84,7 @@ mp3_to_wav('vocals.mp3','path_to_vocal_audio.wav')
 #librosa.output.write_wav("final_vocal.wav", audio_output, sr=16000)
 
 instrumental = AudioSegment.from_wav("output_audio.wav")  # Audio strumentale (MIDI->WAV)
-vocal = AudioSegment.from_mp3("vocals.mp3")  # Audio vocale (TTS)
+vocal = AudioSegment.from_wav("3.wav")  # Audio vocale (TTS)
 
 # Allinea la lunghezza delle tracce (taglia la traccia vocale se è più lunga dell'strumentale)
 min_length = min(len(instrumental), len(vocal))

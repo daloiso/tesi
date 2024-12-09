@@ -34,6 +34,13 @@ class UserProfileManager(BaseUserManager):
         return user.teachingActivities
 
 
+
+class MusicManager(models.Manager):
+    """Manager for music"""
+
+    def get_music(self, title):
+        return self.filter(teachingActivity=title)
+
 class TeachingActivities(models.Model):
     title = models.CharField(max_length=200,  unique=True)
     fileMp3Name = models.CharField(max_length=200)
@@ -52,6 +59,7 @@ class KeyWordSong(models.Model):
     wordSyntetized = models.FileField(upload_to='words/')
     time_word = models.TimeField()
     teachingActivity = models.ForeignKey(TeachingActivities, on_delete=models.CASCADE, related_name='keyWordSongs')
+    objects = MusicManager()
 
     def __str__(self):
         return self.word

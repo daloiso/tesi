@@ -11,7 +11,8 @@ from rest_framework.permissions import IsAuthenticated
 from karaokeapi import serializer
 from karaokeapi import models
 from karaokeapi import permission
-from karaokeapi.serializer import ActivitySerializer
+from karaokeapi.models import KeyWordSong
+from karaokeapi.serializer import ActivitySerializer, KeyWordSongSerializer
 from django.http import FileResponse
 from django.conf import settings
 import os
@@ -70,6 +71,52 @@ class ActivityView(APIView):
         return Response(serializer1.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
+class VerseView(APIView):
+    authentication_classes = [TokenAuthentication]  # Use Token Authentication
+    permission_classes = [IsAuthenticated, permission.OnlyMe]  # Only authenticated users can access
+
+    def get(self, request):
+        if not request.user.is_authenticated:
+            return Response({"detail": "Authentication credentials were not provided."},
+                            status=status.HTTP_401_UNAUTHORIZED)
+        user = request.user.id
+        teaching_activities = models.UserProfile.objects.get_teachings(user)
+        title = request.GET.get('title')
+
+        filtered_activities = teaching_activities.filter(title=title)
+        activity_exists = filtered_activities.exists()
+        if activity_exists:
+            keywords = KeyWordSong.objects.get_music(title)
+            serializer1 = KeyWordSongSerializer(keywords, many=True)
+            return Response(serializer1.data, status=status.HTTP_200_OK)
+        return  Response({"detail": "You do not have permission to get a product."},
+                            status=status.HTTP_403_FORBIDDEN)
+
+    def post(self,request):
+        #user = request.user
+
+        #if user.username != 'pasquale.daloiso@gmail.com':
+        #    return Response(status=status.HTTP_401_UNAUTHORIZED)
+        # Ensure the user is authenticated
+        if not request.user.is_authenticated:
+            return Response({"detail": "Authentication credentials were not provided."},
+                            status=status.HTTP_401_UNAUTHORIZED)
+
+        # Apply the custom permission
+        permission1 = permission.OnlyMe()
+        if not permission1.has_object_permission(request, None, None):
+            return Response({"detail": "You do not have permission to create a product."},
+                            status=status.HTTP_403_FORBIDDEN)
+
+        serializer1 = KeyWordSongSerializer(data=request.data)
+
+        if serializer1.is_valid():
+            serializer1.save()
+            return Response(serializer1.data, status=status.HTTP_201_CREATED)
+        return Response(serializer1.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class FilesView(APIView):
     authentication_classes = [TokenAuthentication]  # Use Token Authentication
     permission_classes = [IsAuthenticated, permission.OnlyMe]
@@ -78,15 +125,18 @@ class FilesView(APIView):
             return Response({"detail": "Authentication credentials were not provided."},
                             status=status.HTTP_401_UNAUTHORIZED)
         user = request.user.id
-        type = request.GET.get('type')
-        if type=='mp3':
-            title = request.GET.get('title')
-            stream = request.GET.get('stream')
+        title = request.GET.get('title')
+        stream = request.GET.get('stream')
+        type_parameter = request.GET.get('type')
+        index = request.GET.get('index')
 
-            teaching_activities = models.UserProfile.objects.get_teachings(user)
-            filtered_activities = teaching_activities.filter(title=title)
-            activity_exists = filtered_activities.exists()
-            if activity_exists:
+        teaching_activities = models.UserProfile.objects.get_teachings(user)
+        filtered_activities = teaching_activities.filter(title=title)
+        activity_exists = filtered_activities.exists()
+        if activity_exists:
+
+            if type_parameter=='mp3':
+
                 file_path = os.path.join(settings.MEDIA_ROOT, 'activities/'+filtered_activities[0].fileMp3Name)
                 if os.path.exists(file_path):
                     # Open the file in binary mode
@@ -100,8 +150,39 @@ class FilesView(APIView):
                 else:
                     return Response({"detail": "file not found"},
                         status=status.HTTP_404_NOT_FOUND)
-            else:
-                return Response({"detail": "you don't have the permission."},
+            if type_parameter=='img':
+                keywords = KeyWordSong.objects.get_music(title)
+                file_path = os.path.join(settings.MEDIA_ROOT, 'keywordsImage/'+keywords[index].imageName)
+                if os.path.exists(file_path):
+                    # Open the file in binary mode
+                    file = open(file_path, 'rb')  # Don't use 'with' here to prevent it from closing immediately
+                    # Pass the file object to FileResponse
+                    response = FileResponse(file)
+                    if stream:
+                        response['Content-Type'] = 'image/png'
+                    response['Content-Disposition'] = f'attachment; filename="{keywords[index].imageName}"'
+                    return response
+                else:
+                    return Response({"detail": "file not found"},
+                                    status=status.HTTP_404_NOT_FOUND)
+            if type_parameter == 'word':
+                keywords = KeyWordSong.objects.get_music(title)
+                file_path = os.path.join(settings.MEDIA_ROOT, keywords[index].wordSyntetized)
+                if os.path.exists(file_path):
+                    # Open the file in binary mode
+                    file = open(file_path, 'rb')  # Don't use 'with' here to prevent it from closing immediately
+                    # Pass the file object to FileResponse
+                    response = FileResponse(file)
+                    if stream:
+                        response['Content-Type'] = 'audio/mpeg'
+                    response['Content-Disposition'] = f'attachment; filename="{keywords[index].wordSyntetized}"'
+                    return response
+                else:
+                    return Response({"detail": "file not found"},
+                                    status=status.HTTP_404_NOT_FOUND)
+
+        else:
+            return Response({"detail": "you don't have the permission."},
                                 status=status.HTTP_401_UNAUTHORIZED)
         return Response({"detail": "wrong parameters"},
                         status=status.HTTP_401_UNAUTHORIZED)

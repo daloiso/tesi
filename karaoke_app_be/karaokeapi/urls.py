@@ -15,7 +15,8 @@ router.register('profile',views.UserProfileViewSet)
 urlpatterns = [
     #path('hello-view/', views.HelloApiView.as_view()),
     path('login/', views.UserLoginApiView.as_view()),
-    path('activity/', views.ActivityView.as_view(), name='activity_view'),  # Map the URL to the view
+    path('activity/', views.ActivityView.as_view(), name='activity_view'),
+    path('verse/', views.VerseView.as_view(), name='verse_view'),
     path('files/',views.FilesView.as_view(),name = 'files_view'),
     path('', include(router.urls)),
 ]

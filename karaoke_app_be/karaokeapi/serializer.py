@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from karaokeapi import models
-from karaokeapi.models import TeachingActivities
+from karaokeapi.models import TeachingActivities, KeyWordSong
 
 
 class ActivitySerializer(serializers.ModelSerializer):
@@ -8,6 +8,10 @@ class ActivitySerializer(serializers.ModelSerializer):
         model = TeachingActivities
         fields = ['title', 'fileMp3Name', 'fileMp3', 'textSong',]
 
+class KeyWordSongSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = KeyWordSong
+        fields = ['word', 'wordsToDisplay', 'imageName', 'image','wordSyntetized','time_word']
 
 class UserProfileSerializer(serializers.ModelSerializer):
     """Serializes a user profile object"""
