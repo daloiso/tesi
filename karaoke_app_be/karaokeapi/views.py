@@ -154,8 +154,8 @@ class FilesView(APIView):
                     return Response({"detail": "file not found"},
                         status=status.HTTP_404_NOT_FOUND)
             if type_parameter=='img':
-                keywords = KeyWordSong.objects.get_music(title)
-                file_path = keywords[index].image
+                keywords = KeyWordSong.objects.get_music(filtered_activities[0].id)
+                file_path = keywords[int(index)].image.path
                 if os.path.exists(file_path):
                     # Open the file in binary mode
                     file = open(file_path, 'rb')  # Don't use 'with' here to prevent it from closing immediately
@@ -163,7 +163,7 @@ class FilesView(APIView):
                     response = FileResponse(file)
                     if stream:
                         response['Content-Type'] = 'image/png'
-                    response['Content-Disposition'] = f'attachment; filename="{keywords[index].imageName}"'
+                    response['Content-Disposition'] = f'attachment; filename="{keywords[int(index)].imageName}"'
                     return response
                 else:
                     return Response({"detail": "file not found"},

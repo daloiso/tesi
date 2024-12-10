@@ -38,8 +38,8 @@ class UserProfileManager(BaseUserManager):
 class MusicManager(models.Manager):
     """Manager for music"""
 
-    def get_music(self, title):
-        return self.filter(teachingActivity=title)
+    def get_music(self, id_teaching):
+        return self.filter(teachingActivity=id_teaching).order_by('time_word')
 
 class TeachingActivities(models.Model):
     title = models.CharField(max_length=200,  unique=True)
