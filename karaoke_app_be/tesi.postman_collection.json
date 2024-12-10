@@ -1,0 +1,372 @@
+{
+	"info": {
+		"_postman_id": "c10fe73b-a01b-4fd3-80c4-308d43915d2d",
+		"name": "tesi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3027228",
+		"_collection_link": "https://interstellar-rocket-243190.postman.co/workspace/Team-Workspace~05a4b1d2-c1ee-49ac-8051-979ca6430363/collection/3027228-c10fe73b-a01b-4fd3-80c4-308d43915d2d?action=share&source=collection_link&creator=3027228"
+	},
+	"item": [
+		{
+			"name": "createProduct",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token d94bf2213de9eb1005c017d7cd8e936429ee3356",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "Ordina i Giocattoli",
+							"type": "text"
+						},
+						{
+							"key": "fileMp3Name",
+							"value": "5.mp3",
+							"type": "text"
+						},
+						{
+							"key": "textSong",
+							"value": "Ordinare e prendersi cura degli oggetti",
+							"type": "text"
+						},
+						{
+							"key": "fileMp3",
+							"type": "file",
+							"src": "/home/pasquale/Scrivania/sourceTesi/musica/5.mp3"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/activity/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"activity",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createVerse",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token d94bf2213de9eb1005c017d7cd8e936429ee3356",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "word",
+							"value": "attenzione",
+							"type": "text"
+						},
+						{
+							"key": "wordsToDisplay",
+							"value": "è facile, basta fare attenzione!",
+							"type": "text"
+						},
+						{
+							"key": "imageName",
+							"value": "è facile, basta fare attenzione.png",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/home/pasquale/Scrivania/sourceTesi/immagini/5/è facile, basta fare attenzione!.png"
+						},
+						{
+							"key": "time_word",
+							"value": "17",
+							"type": "text"
+						},
+						{
+							"key": "teachingActivity",
+							"value": "5",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/verse/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"verse",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get product",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token b9862aacb7a0c2f9b1a346e8e1186607e61ecf81",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/activity/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"activity",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get verse",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token b9862aacb7a0c2f9b1a346e8e1186607e61ecf81",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/verse/?title=Fai una Pausa",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"verse",
+						""
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "Fai una Pausa"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "streaming words",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token b9862aacb7a0c2f9b1a346e8e1186607e61ecf81",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/files/?type=sentence&title=Fai%20una%20pausa&sentencePar=prova",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"files",
+						""
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "sentence"
+						},
+						{
+							"key": "title",
+							"value": "Fai%20una%20pausa"
+						},
+						{
+							"key": "sentencePar",
+							"value": "prova"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getImage",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token b9862aacb7a0c2f9b1a346e8e1186607e61ecf81",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/files/?type=img&title=Fai%20una%20Pausa&index=0",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"files",
+						""
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "img"
+						},
+						{
+							"key": "title",
+							"value": "Fai%20una%20Pausa"
+						},
+						{
+							"key": "index",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/api/profile/1/",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "it-IT,it;q=0.9,en-US;q=0.8,en;q=0.7"
+					},
+					{
+						"key": "Cache-Control",
+						"value": "max-age=0"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Cookie",
+						"value": "csrftoken=5YKuXhLSfnO4s5SgWBufraq6AMF8Lwth"
+					},
+					{
+						"key": "DNT",
+						"value": "1"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "document"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "navigate"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "none"
+					},
+					{
+						"key": "Sec-Fetch-User",
+						"value": "?1"
+					},
+					{
+						"key": "Upgrade-Insecure-Requests",
+						"value": "1"
+					},
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+					},
+					{
+						"key": "authorization",
+						"value": "Token d94bf2213de9eb1005c017d7cd8e936429ee3356"
+					},
+					{
+						"key": "sec-ch-ua",
+						"value": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\""
+					},
+					{
+						"key": "sec-ch-ua-mobile",
+						"value": "?0"
+					},
+					{
+						"key": "sec-ch-ua-platform",
+						"value": "\"Linux\""
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/api/profile/1/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"profile",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
