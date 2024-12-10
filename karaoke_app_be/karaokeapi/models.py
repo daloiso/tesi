@@ -57,7 +57,7 @@ class KeyWordSong(models.Model):
     imageName=models.CharField(max_length=200)
     image = models.FileField(upload_to='keywordsImage/')
     wordSyntetized = models.FileField(upload_to='words/')
-    time_word = models.TimeField()
+    time_word = models.IntegerField()
     teachingActivity = models.ForeignKey(TeachingActivities, on_delete=models.CASCADE, related_name='keyWordSongs')
     objects = MusicManager()
 
