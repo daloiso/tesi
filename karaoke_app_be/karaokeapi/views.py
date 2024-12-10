@@ -90,7 +90,7 @@ class VerseView(APIView):
         filtered_activities = teaching_activities.filter(title=title)
         activity_exists = filtered_activities.exists()
         if activity_exists:
-            keywords = KeyWordSong.objects.get_music(title)
+            keywords = KeyWordSong.objects.get_music(filtered_activities[0].id)
             serializer1 = KeyWordSongSerializer(keywords, many=True)
             return Response(serializer1.data, status=status.HTTP_200_OK)
         return  Response({"detail": "You do not have permission to get a product."},
