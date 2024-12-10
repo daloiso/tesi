@@ -155,7 +155,7 @@ class FilesView(APIView):
                         status=status.HTTP_404_NOT_FOUND)
             if type_parameter=='img':
                 keywords = KeyWordSong.objects.get_music(title)
-                file_path = os.path.join(settings.MEDIA_ROOT, 'keywordsImage/'+keywords[index].imageName)
+                file_path = keywords[index].image
                 if os.path.exists(file_path):
                     # Open the file in binary mode
                     file = open(file_path, 'rb')  # Don't use 'with' here to prevent it from closing immediately

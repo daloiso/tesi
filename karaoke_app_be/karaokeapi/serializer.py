@@ -11,7 +11,7 @@ class ActivitySerializer(serializers.ModelSerializer):
 class KeyWordSongSerializer(serializers.ModelSerializer):
     class Meta:
         model = KeyWordSong
-        fields = ['word', 'wordsToDisplay', 'imageName', 'image','wordSyntetized','time_word','teachingActivity']
+        fields = ['word', 'wordsToDisplay', 'imageName', 'image','time_word','teachingActivity']
 
 class UserProfileSerializer(serializers.ModelSerializer):
     """Serializes a user profile object"""
