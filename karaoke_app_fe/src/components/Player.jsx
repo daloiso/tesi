@@ -44,6 +44,7 @@ export default function Player({ isOpen, onClose, title }) {
     />
   );
 
+  
   return (
     <Modal isCentered isOpen={isOpen} onClose={onClose} >
       {OverlayOne()}
