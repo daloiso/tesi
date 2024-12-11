@@ -44,7 +44,7 @@ export default function Player({ isOpen, onClose, title }) {
     />
   );
 
-  
+
   return (
     <Modal isCentered isOpen={isOpen} onClose={onClose} >
       {OverlayOne()}
@@ -54,11 +54,11 @@ export default function Player({ isOpen, onClose, title }) {
         {loading ? (
             <Text color="gray.500">Caricamento dei dati in corso...</Text>  // Messaggio di caricamento
           ) : (
-            <Text>Caricato</Text> 
+            <Text >Caricato</Text> 
           )}
         </ModalBody>
         <ModalFooter>
-          <Button bg="buttonCustom" onClick={onClose}>Close</Button>
+          <Button bg="buttonCustom"  color="white" onClick={onClose}>Close</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
