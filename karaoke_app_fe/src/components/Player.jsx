@@ -32,9 +32,10 @@ export default function Player({ isOpen, onClose, title }) {
     setLoading(true); // Imposta lo stato di caricamento
     try {
       let data = await verseLoader(title);
-      console.log(data);
+      //TODO await delay(2000);
       setText(data[0].wordsToDisplay);
       setIndex(0);
+      //TODO management of audio
       const audioUrl = await downloadMusicUrl(title);
       setAudioSrc(audioUrl);
     } catch (error) {
@@ -76,10 +77,16 @@ export default function Player({ isOpen, onClose, title }) {
                 showDownloadProgress={false}
                 showFilledProgress={false}
                 customControlsSection={[
-                  RHAP_UI.MAIN_CONTROLS,
                   RHAP_UI.VOLUME_CONTROLS,
                 ]}
-              />
+                customProgressBarSection={
+                    [
+                      RHAP_UI.CURRENT_TIME,
+                      <div>/</div>,
+                      RHAP_UI.DURATION
+                    ]
+                }
+                />
             </Box>
           )}
         </ModalBody>
