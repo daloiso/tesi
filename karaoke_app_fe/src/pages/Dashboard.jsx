@@ -12,45 +12,58 @@ import {
   CardBody,
   CardFooter,
   HStack,
-  
   Button,
-  Avatar
+  useDisclosure
 } from "@chakra-ui/react"
 import { useLoaderData } from "react-router-dom"
+import Player from "../components/Player"
+import React, { useState } from 'react';
 
 export default function Dashboard() {
   const tasks = useLoaderData()
-
+  const [title, setTitle] = useState('Titolo iniziale');
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const playMusicFun = (title) => {
+    onOpen();
+    setTitle(title);
+  }
+  
   return (
-    <SimpleGrid spacing={10} minChildWidth={300}>
-      {tasks && tasks.map(task => (
-        <Card key={task.id} borderTop="8px" borderColor="purple.400" bg="white">
+    <div>
+      <SimpleGrid spacing={10} minChildWidth={300}>
+        {tasks && tasks.map(task => (
+          <Card key={task.title} borderTop="8px" borderColor="purple.400" bg="white">
 
-          <CardHeader color="gray.700">
-            <Flex gap={5}>
+            <CardHeader color="gray.700">
+              <Flex gap={5}>
+                
+                <Box>
+                  <Heading as="h3" size="sm">{task.title}</Heading>
+                
+                </Box>
+              </Flex>
+            </CardHeader>
+
+            <CardBody color="gray.500">
+              <Text>{task.textSong}</Text>
+            </CardBody>
+
+
+            <CardFooter>
+              <HStack>
+                <Button variant="ghost" leftIcon={<FaRegPlayCircle />} onClick={() => playMusicFun(task.title)} >Play</Button>
               
-              <Box>
-                <Heading as="h3" size="sm">{task.title}</Heading>
-               
-              </Box>
-            </Flex>
-          </CardHeader>
+                <Button variant="ghost" leftIcon={<IoMdDownload />}  onClick={() => donwloadMusicFun(task.title)} >Download</Button>
+              </HStack>
+            </CardFooter>
 
-          <CardBody color="gray.500">
-            <Text>{task.textSong}</Text>
-          </CardBody>
-
-
-          <CardFooter>
-            <HStack>
-              <Button variant="ghost" leftIcon={<FaRegPlayCircle />}>Play</Button>
-              <Button variant="ghost" leftIcon={<IoMdDownload />}  onClick={() => donwloadMusicFun(task.title)} >Download</Button>
-            </HStack>
-          </CardFooter>
-
-        </Card>
-      ))}
-    </SimpleGrid>
+          </Card>
+        ))}
+      </SimpleGrid>
+      <Player isOpen={isOpen} 
+        onClose={onClose} 
+        title={title} ></Player>
+    </div>
   )
 }
 
@@ -104,3 +117,5 @@ async function donwloadMusicFun(title)  {
       return null;
     });
   }
+
+  

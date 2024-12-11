@@ -4,7 +4,8 @@ import App from './App'
 import { ChakraProvider,extendTheme,withDefaultSize,withDefaultColorScheme} from "@chakra-ui/react"
 
 const colors = {
-  yellowCustom: '#ffde59',  
+  yellowCustom: '#ffde59',
+  buttonCustom: '#d9534f' , 
   custom: {
     blue: '#cdf3ff',
     text: '#003d4d'
