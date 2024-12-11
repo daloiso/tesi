@@ -10,7 +10,8 @@ import {
   Button, 
   ModalOverlay 
 } from "@chakra-ui/react";
-
+import AudioPlayer, {RHAP_UI} from 'react-h5-audio-player';
+import 'react-h5-audio-player/lib/styles.css';
 export default function Player({ isOpen, onClose, title }) {
 
   const [loading, setLoading] = useState(false);  
@@ -54,7 +55,18 @@ export default function Player({ isOpen, onClose, title }) {
         {loading ? (
             <Text color="gray.500">Caricamento dei dati in corso...</Text>  // Messaggio di caricamento
           ) : (
-            <Text >Caricato</Text> 
+            <AudioPlayer
+                autoPlay
+                src="http://example.com/audio.mp3"
+                onPlay={e => console.log("onPlay")}
+                showJumpControls={false}
+                showDownloadProgress={false}
+                showFilledProgress={false}
+                customControlsSection={[
+                    RHAP_UI.MAIN_CONTROLS,
+                    RHAP_UI.VOLUME_CONTROLS,
+                ]}
+            />
           )}
         </ModalBody>
         <ModalFooter>
