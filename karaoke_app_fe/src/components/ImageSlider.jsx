@@ -6,7 +6,7 @@ export default function ImageSlider({ title, text, index }) {
   useEffect(() => {
     
     fetchImageFromBackend();
-  }, []);
+  }, [index]);
 
   const fetchImageFromBackend = async () => {
     const imageUrl = await downloadImageUrl(title, index);

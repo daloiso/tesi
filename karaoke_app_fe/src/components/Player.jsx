@@ -19,7 +19,7 @@ export default function Player({ isOpen, onClose, title }) {
   const [loading, setLoading] = useState(false);
   const [audioSrc, setAudioSrc] = useState(null);
   const [text, setText] = useState(null);
-  const [index, setIndex] = useState(null);
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
     if (isOpen) {
@@ -32,12 +32,34 @@ export default function Player({ isOpen, onClose, title }) {
     setLoading(true); // Imposta lo stato di caricamento
     try {
       let data = await verseLoader(title);
-      //TODO await delay(2000);
-      setText(data[0].wordsToDisplay);
-      setIndex(0);
-      //TODO management of audio
+      setLoading(false); 
+
+      for (let i = 0; i < data.length; i++) {
+        setText(data[i].word);  
+        setIndex(i);
+        const voiceUrl = await downloadWorldUrl(title,data[i].word);
+        setAudioSrc(voiceUrl);
+
+        await delay(7000);
+      }
       const audioUrl = await downloadMusicUrl(title);
       setAudioSrc(audioUrl);
+      let previousTime = 0; 
+      for (let i = 0; i < data.length; i++) {
+        setText(data[i].wordsToDisplay);
+        console.log('qui'+i)
+        setIndex(i);
+        if(i+1!=data.length){
+          let delayTime=data[i+1].time_word-previousTime
+          console.log("time_word "+data[i+1].time_word);
+
+          console.log("delayTime "+delayTime);
+          console.log("previousTime "+previousTime);
+
+          await delay(delayTime*1000);
+          previousTime=data[i+1].time_word;
+        }
+      }
     } catch (error) {
       console.error("Errore durante la chiamata al backend:", error);
     } finally {
@@ -180,3 +202,7 @@ export const verseLoader = async (title) => {
       return null;
     });
 };
+
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
