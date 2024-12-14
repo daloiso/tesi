@@ -16,14 +16,17 @@ import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import ImageSlider from "./ImageSlider";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-
+import { Spinner } from '@chakra-ui/react'
+import { FcOk } from "react-icons/fc";
 
 export default function Player({ isOpen, onClose, title }) {
   const [loading, setLoading] = useState(false);
   const [audioSrc, setAudioSrc] = useState(null);
   const [text, setText] = useState(null);
   const [index, setIndex] = useState(0);
-    const [isListening, setIsListening] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [isOK, setIsOK] = useState(false);
+
   const { transcript, resetTranscript, listening } = useSpeechRecognition({
    
   });
@@ -39,7 +42,7 @@ export default function Player({ isOpen, onClose, title }) {
     if (transcript) {
       console.log("Transcript updated:", transcript);
      if(text == transcript){
-      console.log("is ok");
+      setIsOK(true)
      }
     }
   }, [transcript]);
@@ -56,6 +59,7 @@ export default function Player({ isOpen, onClose, title }) {
     SpeechRecognition.stopListening();
     setIsListening(false);
     resetTranscript()
+    setIsOK(false)
   };
 
 
@@ -117,9 +121,15 @@ export default function Player({ isOpen, onClose, title }) {
             <Text color="gray.500">Caricamento dei dati in corso...</Text> // Messaggio di caricamento
           ) : (
             <Box>
+              {isListening && (
               <HStack>
-                <Text>Sto registrando</Text>
+                <Spinner color='red.500' />
+                <Text>Sto registrando...</Text>
+                  {isOK && (
+                    <FcOk />
+                  )}
               </HStack>
+              )}
               <ImageSlider
                 index={index}
                 title={title}
