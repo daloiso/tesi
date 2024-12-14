@@ -1,7 +1,9 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App'
-import { ChakraProvider,extendTheme,withDefaultSize,withDefaultColorScheme} from "@chakra-ui/react"
+import 'regenerator-runtime/runtime';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import { ChakraProvider,extendTheme,withDefaultSize, withDefaultColorScheme } from "@chakra-ui/react";
+
 
 const colors = {
   yellowCustom: '#ffde59',
@@ -17,8 +19,7 @@ const fonts = {
   heading: 'Courier New',
 };
 
-const theme = extendTheme({
-  
+const theme = extendTheme({  
   fonts,
   colors,
   ...withDefaultSize({
@@ -27,9 +28,7 @@ const theme = extendTheme({
   ...withDefaultColorScheme({
     colorScheme: 'yellowCustom',
   }),
-})
-
-
+});
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <ChakraProvider theme={theme}>
@@ -37,6 +36,4 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <App />
   </React.StrictMode>
   </ChakraProvider>
-  ,
-)
-
+);

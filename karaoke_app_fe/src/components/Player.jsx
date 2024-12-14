@@ -9,17 +9,24 @@ import {
   ModalFooter,
   Button,
   ModalOverlay,
-  Box
+  Box,
+  HStack
 } from "@chakra-ui/react";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import ImageSlider from "./ImageSlider";
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+
 
 export default function Player({ isOpen, onClose, title }) {
   const [loading, setLoading] = useState(false);
   const [audioSrc, setAudioSrc] = useState(null);
   const [text, setText] = useState(null);
   const [index, setIndex] = useState(0);
+    const [isListening, setIsListening] = useState(false);
+  const { transcript, resetTranscript, listening } = useSpeechRecognition({
+   
+  });
 
   useEffect(() => {
     if (isOpen) {
@@ -27,6 +34,30 @@ export default function Player({ isOpen, onClose, title }) {
       fetchDataFromBackend();
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (transcript) {
+      console.log("Transcript updated:", transcript);
+     if(text == transcript){
+      console.log("is ok");
+     }
+    }
+  }, [transcript]);
+
+    const startListening = async () => {
+    // Start listening
+    SpeechRecognition.startListening({ continuous: true , language: "it-IT"});
+    setIsListening(true);
+
+    // Wait for 7 seconds while listening
+    await delay(7000);
+
+    // Stop listening after 7 seconds
+    SpeechRecognition.stopListening();
+    setIsListening(false);
+    resetTranscript()
+  };
+
 
   const fetchDataFromBackend = async () => {
     setLoading(true); // Imposta lo stato di caricamento
@@ -39,8 +70,8 @@ export default function Player({ isOpen, onClose, title }) {
         setIndex(i);
         const voiceUrl = await downloadWorldUrl(title,data[i].word);
         setAudioSrc(voiceUrl);
-
-        await delay(7000);
+        await delay(3000);
+        await startListening();
       }
       const audioUrl = await downloadMusicUrl(title);
       setAudioSrc(audioUrl);
@@ -86,6 +117,9 @@ export default function Player({ isOpen, onClose, title }) {
             <Text color="gray.500">Caricamento dei dati in corso...</Text> // Messaggio di caricamento
           ) : (
             <Box>
+              <HStack>
+                <Text>Sto registrando</Text>
+              </HStack>
               <ImageSlider
                 index={index}
                 title={title}
