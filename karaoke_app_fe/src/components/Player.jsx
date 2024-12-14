@@ -18,6 +18,7 @@ import ImageSlider from "./ImageSlider";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { Spinner } from '@chakra-ui/react'
 import { FcOk } from "react-icons/fc";
+import Fuse from "fuse.js";
 
 export default function Player({ isOpen, onClose, title }) {
   const [loading, setLoading] = useState(false);
@@ -41,9 +42,20 @@ export default function Player({ isOpen, onClose, title }) {
   useEffect(() => {
     if (transcript) {
       console.log("Transcript updated:", transcript);
-     if(text == transcript){
-      setIsOK(true)
-     }
+      const data = [{ text: text }];  // Wrap your `text` in an object
+
+      // Fuse.js options with includeScore enabled
+      const options = {
+        keys: ['text'], 
+        includeScore: true, 
+        threshold: 0.4,
+      };
+      const fuse = new Fuse(data, options);
+      const result = fuse.search(transcript)
+      console.log(result);
+      if (result.length > 0) {
+        setIsOK(true)
+      }
     }
   }, [transcript]);
 
@@ -124,7 +136,7 @@ export default function Player({ isOpen, onClose, title }) {
               {isListening && (
               <HStack>
                 <Spinner color='red.500' />
-                <Text>Sto registrando...</Text>
+                <Text>Sto controllando la pronuncia...</Text>
                   {isOK && (
                     <FcOk />
                   )}
