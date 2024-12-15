@@ -47,5 +47,6 @@ COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 EXPOSE 8000 80
 
 # Start both Nginx and Django servers
-CMD service nginx start && conda run -n myenv python /app/karaoke_app_be/manage.py runserver 0.0.0.0:8000
+CMD ["sh", "-c", "nginx -g 'daemon off;' & conda run -n myenv python /app/karaoke_app_be/manage.py runserver 0.0.0.0:8000"]
+
 
