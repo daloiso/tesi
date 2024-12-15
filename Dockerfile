@@ -41,5 +41,5 @@ RUN npm run build
 EXPOSE 8000 5173
 
 # Start both the React and Django servers using a shell command
-CMD ["sh", "-c", "npm start --prefix /app/karaoke_app_fe & python /app/karaoke_app_be/manage.py runserver 0.0.0.0:8000"]
+CMD ["sh", "-c", "conda run -n myenv npm start --prefix /app/karaoke_app_fe & conda run -n myenv python /app/karaoke_app_be/manage.py runserver 0.0.0.0:8000"]
 
