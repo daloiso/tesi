@@ -4,7 +4,7 @@ FROM continuumio/miniconda3
 # Set the working directory
 WORKDIR /app
 
-# Install system dependencies
+# Install system dependencies including Nginx
 RUN apt-get update && apt-get install -y \
     fluid-soundfont-gm \
     build-essential \
@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
     nodejs \
     npm \
     sox \
+    nginx \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy the Conda environment definition and app code
@@ -37,9 +38,14 @@ RUN npm install
 # Build the React app (for production)
 RUN npm run build
 
-# Expose both backend (Django) and frontend (React) ports
-EXPOSE 8000 5173
+# Copy the built React app into Nginx's public folder
+RUN cp -r /app/karaoke_app_fe/dist /usr/share/nginx/html
 
-# Start both the React and Django servers using a shell command
-CMD ["sh", "-c", "conda run -n myenv npm start --prefix /app/karaoke_app_fe & conda run -n myenv python /app/karaoke_app_be/manage.py runserver 0.0.0.0:8000"]
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+
+# Expose necessary ports (8000 for Django, 80 for Nginx)
+EXPOSE 8000 80
+
+# Start both Nginx and Django servers
+CMD service nginx start && conda run -n myenv python /app/karaoke_app_be/manage.py runserver 0.0.0.0:8000
 
