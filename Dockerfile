@@ -38,15 +38,14 @@ RUN npm install
 # Build the React app (for production)
 RUN npm run build
 
-# Copy the built React app into Nginx's public folder
 RUN cp -r /app/karaoke_app_fe/dist /usr/share/nginx/html
 
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 
 # Expose necessary ports (8000 for Django, 80 for Nginx)
-EXPOSE 8000 80
+EXPOSE 8000 80 5173
 
 # Start both Nginx and Django servers
-CMD ["sh", "-c", "nginx -g 'daemon off;' & conda run -n myenv python /app/karaoke_app_be/manage.py runserver 0.0.0.0:8000"]
+CMD ["sh", "-c", "nginx -g 'daemon off;' & npm run dev & conda run -n myenv python /app/karaoke_app_be/manage.py runserver 0.0.0.0:8000"]
 
 
