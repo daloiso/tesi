@@ -1,0 +1,69 @@
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+sudo systemctl daemon-reload
+sudo systemctl enable docker
+sudo systemctl start docker
+
+
+
+scp -i ../projects/key_rsa.pem tesi-main2.zip ubuntu@174.129.146.9:/home/ubuntu/
+
+
+sudo apt install unzip
+echo 'export DOCKER_BUILDKIT=1' >> ~/.bashrc
+source ~/.bashrc
+
+sudo docker build -t karaoke .
+Ram insufficiente
+
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+chmod +x Miniconda3-latest-Linux-x86_64.sh
+./Miniconda3-latest-Linux-x86_64.sh
+
+
+sudo apt-get update && sudo apt-get install -y \
+    fluid-soundfont-gm \
+    build-essential \
+    libasound2-dev \
+    libjack-dev \
+    ffmpeg \
+    nodejs \
+    npm \
+    sox
+    
+    
+conda create --name ai_project python=3.8
+conda init
+source ~/.bashrc
+conda activate ai_project
+conda install pip
+pip install -r tesi-main/karaoke_app_be/requirements.txt
+
+cambiato vite config
+npm install
+sudo apt install nginx
+npm run build
+modifico root /etc/nginx/sites-available/default di modo che punta a dist
+sudo systemctl restart nginx
+sudo chmod 755 /home/ubuntu
+sudo chmod 755 /home/ubuntu/tesi-main
+sudo chmod 755 /home/ubuntu/tesi-main/karaoke_app_fe
+sudo chown -R www-data:www-data /home/ubuntu/tesi-main/karaoke_app_fe/dist/
+sudo chmod -R 755 /home/ubuntu/tesi-main/karaoke_app_fe/dist/
+
+
+aggiunta regola 8000 per entrare in server
+
