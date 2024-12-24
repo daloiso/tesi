@@ -141,6 +141,10 @@ CORS_ALLOWED_ORIGIN_REGEXES = [
     r'http://localhost:\d+',   # Allow localhost on any port
     r'http://127.0.0.1:\d+',   # Allow 127.0.0.1 on any port
     r'http://karaoke4all.ddns.net:\d+',
+
+    r'https://localhost:\d+',  # Allow localhost on any port
+    r'https://127.0.0.1:\d+',  # Allow 127.0.0.1 on any port
+    r'https://karaoke4all.ddns.net:\d+',
 ]
 
 # Optional: Allow specific methods and headers if needed
