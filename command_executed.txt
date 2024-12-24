@@ -70,8 +70,11 @@ aggiunta regola 8000 per entrare in server
 openssl genpkey -algorithm RSA -out /etc/ssl/private/selfsigned.key
 
 # Genera una chiave privata
-sudo openssl genpkey -algorithm RSA -out /etc/ssl/private/selfsigned.key
+#sudo openssl genpkey -algorithm RSA -out /etc/ssl/private/selfsigned.key
 
 # Crea un certificato autofirmato (validità di 365 giorni)
-sudo openssl req -x509 -new -key /etc/ssl/private/selfsigned.key -out /etc/ssl/certs/selfsigned.crt -days 365
+#sudo openssl req -x509 -new -key /etc/ssl/private/selfsigned.key -out /etc/ssl/certs/selfsigned.crt -days 365
+#https://letsencrypt.org/docs/ bot
+sudo apt install certbot python3-certbot-nginx
+sudo certbot --nginx
 
