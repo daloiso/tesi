@@ -2,7 +2,7 @@ import { VStack, Text, Image, Divider } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 
 export default function ImageSlider({ title, text, index }) {
-  const [imageSrc, setImageSrc] = useState("https://via.placeholder.com/150");
+  const [imageSrc, setImageSrc] = useState("/img/150.png");
   useEffect(() => {
     
     fetchImageFromBackend();
