@@ -182,7 +182,7 @@ import axios from "axios";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 async function downloadMusicUrl(title) {
-  const url = "${apiUrl}/api/files/?type=mp3&title=" + title;
+  const url = `${apiUrl}/api/files/?type=mp3&title=` + title;
 
   try {
     const response = await axios.get(url, {
