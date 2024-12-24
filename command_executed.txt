@@ -66,4 +66,12 @@ sudo chmod -R 755 /home/ubuntu/tesi-main/karaoke_app_fe/dist/
 
 
 aggiunta regola 8000 per entrare in server
+# Genera una chiave privata
+openssl genpkey -algorithm RSA -out /etc/ssl/private/selfsigned.key
+
+# Genera una chiave privata
+sudo openssl genpkey -algorithm RSA -out /etc/ssl/private/selfsigned.key
+
+# Crea un certificato autofirmato (validità di 365 giorni)
+sudo openssl req -x509 -new -key /etc/ssl/private/selfsigned.key -out /etc/ssl/certs/selfsigned.crt -days 365
 
