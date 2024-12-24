@@ -70,8 +70,10 @@ export default function Dashboard() {
 
 import axios from 'axios';
 import { json } from 'react-router-dom';
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export const tasksLoader = async () => {
-  const url = 'http://127.0.0.1:8000/api/activity/';
+  const url = `${apiUrl}/api/activity/`;
 
   return axios.get(url, {headers: {
       'Authorization': 'Token b9862aacb7a0c2f9b1a346e8e1186607e61ecf81',
@@ -90,7 +92,7 @@ export const tasksLoader = async () => {
 }
 
 async function donwloadMusicFun(title)  {
-  const url = 'http://127.0.0.1:8000/api/files/?type=mp3&title='+title;
+  const url = `${apiUrl}/api/files/?type=mp3&title=`+title;
 
   return axios.get(url, {
     responseType: "blob",

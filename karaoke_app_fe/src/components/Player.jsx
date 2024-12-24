@@ -179,9 +179,10 @@ export default function Player({ isOpen, onClose, title }) {
 }
 
 import axios from "axios";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 async function downloadMusicUrl(title) {
-  const url = "http://127.0.0.1:8000/api/files/?type=mp3&title=" + title;
+  const url = "${apiUrl}/api/files/?type=mp3&title=" + title;
 
   try {
     const response = await axios.get(url, {
@@ -209,7 +210,7 @@ async function downloadMusicUrl(title) {
 
 async function downloadWorldUrl(title, sentence) {
   const url =
-    "http://127.0.0.1:8000/api/files/?type=sentence&title=" +
+    `${apiUrl}/api/files/?type=sentence&title=` +
     title +
     "&sentencePar=" +
     sentence;
@@ -239,7 +240,7 @@ async function downloadWorldUrl(title, sentence) {
 }
 
 export const verseLoader = async (title) => {
-  const url = "http://127.0.0.1:8000/api/verse/?title=" + title;
+  const url = "${apiUrl}/api/verse/?title=" + title;
 
   return axios
     .get(url, {

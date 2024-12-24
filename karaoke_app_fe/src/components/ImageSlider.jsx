@@ -23,10 +23,11 @@ export default function ImageSlider({ title, text, index }) {
 }
 
 import axios from "axios";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 async function downloadImageUrl(title, index) {
   const url =
-    "http://127.0.0.1:8000/api/files/?type=img&title=" +
+    `${apiUrl}/api/files/?type=img&title=` +
     title +
     "&index=" +
     index;
