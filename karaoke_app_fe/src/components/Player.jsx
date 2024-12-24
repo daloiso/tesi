@@ -240,7 +240,7 @@ async function downloadWorldUrl(title, sentence) {
 }
 
 export const verseLoader = async (title) => {
-  const url = "${apiUrl}/api/verse/?title=" + title;
+  const url = `${apiUrl}/api/verse/?title=` + title;
 
   return axios
     .get(url, {
