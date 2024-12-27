@@ -1,5 +1,6 @@
 import { FaRegPlayCircle } from "react-icons/fa";
 import { IoMdDownload } from "react-icons/io";
+import ReactGA from "react-ga4";
 
 import { 
   Box, 
@@ -26,8 +27,18 @@ export default function Dashboard() {
   const playMusicFun = (title) => {
     onOpen();
     setTitle(title);
+    if (process.env.NODE_ENV === "production") {
+      ReactGA.event({
+        category: 'Music',
+        action: 'Play Song',
+        label: title
+      });
+    }
   }
-  
+  console.log(process.env.NODE_ENV );
+  if (process.env.NODE_ENV === "production") {
+    ReactGA.send({ hitType: "pageview", page: "/dashboard", title: "dashboard" });
+  }
   return (
     <div>
       <SimpleGrid spacing={10} minChildWidth={300}>
