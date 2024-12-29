@@ -1,0 +1,26 @@
+function svuotaCestino() {
+  var files = DriveApp.getTrashedFiles(); // Ottieni i file nel Cestino
+  while (files.hasNext()) {
+    var file = files.next();
+    var fileId = file.getId();
+    
+    // Usa Google Drive API per eliminare definitivamente il file
+    var url = 'https://www.googleapis.com/drive/v3/files/' + fileId;
+    
+    var options = {
+      'method': 'delete',
+      'muteHttpExceptions': true,
+      'headers': {
+        'Authorization': 'Bearer ' + ScriptApp.getOAuthToken()
+      }
+    };
+    
+    // Effettua la richiesta per eliminare definitivamente il file
+    var response = UrlFetchApp.fetch(url, options);
+    if (response.getResponseCode() === 204) {
+      Logger.log('File eliminato definitivamente: ' + file.getName());
+    } else {
+      Logger.log('Errore nell\'eliminazione del file: ' + file.getName());
+    }
+  }
+}
