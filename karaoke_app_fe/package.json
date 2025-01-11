@@ -11,10 +11,12 @@
   "dependencies": {
     "@chakra-ui/react": "^2.4.6",
     "@emotion/react": "^11.13.5",
+    "@react-oauth/google": "^0.12.1",
     "@vitejs/plugin-legacy": "^6.0.0",
     "axios": "^1.7.9",
     "core-js": "^3.39.0",
     "fuse.js": "^7.0.0",
+    "jwt-decode": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-ga4": "^2.1.0",
