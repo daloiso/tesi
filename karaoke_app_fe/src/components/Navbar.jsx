@@ -14,7 +14,15 @@ export default function Navbar() {
 
   return (
     <Flex as="nav" p="10px" mb="60px" alignItems="center">
-      <Heading as="h1" fontSize="1.5em">Karaoke didattico</Heading>
+      <Heading as="h1" fontSize="1.5em">
+      <Text 
+      fontSize="2xl" 
+      fontWeight="bold" 
+      color="teal.500" 
+      textAlign="center"
+      mb={4}
+    >Karaoke didattico
+    </Text></Heading>
       <Spacer />
 
       <HStack spacing="20px" display={"none"}> 
