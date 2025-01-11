@@ -31,7 +31,7 @@ Il nostro sistema interattivo ti aiuta a migliorare la pronuncia in modo diverte
         
       <Center >
       <Link href="/dashboard">
-      <a>
+      
       <Text
         fontSize="md"
         color="gray.600"
@@ -40,7 +40,7 @@ Il nostro sistema interattivo ti aiuta a migliorare la pronuncia in modo diverte
       >Prova subito cliccando sull'immagine</Text>
         <Image  borderRadius='full' src='/img/microphone.jpg' alt='karaoke'  maxW="300px"    
               maxH="300px"       />
-        </a>
+        
         </Link>
       </Center>
       </Box>
