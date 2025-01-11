@@ -28,7 +28,6 @@ export default function Home() {
       >
 Il nostro sistema interattivo ti aiuta a migliorare la pronuncia in modo divertente, utilizzando immagini e testi per facilitare la memorizzazione delle parole.</Text>
      
-      
         
       <Center >
       <Link href="/dashboard">
