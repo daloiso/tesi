@@ -27,7 +27,15 @@ export default function Home() {
         lineHeight="1.6"
       >
 Il nostro sistema interattivo ti aiuta a migliorare la pronuncia in modo divertente, utilizzando immagini e testi per facilitare la memorizzazione delle parole.</Text>
-     
+<Text
+        fontSize="lg"
+        color="gray.700"
+        mb={4}
+        lineHeight="1.6"
+      >
+
+Il gioco è super divertente! Devi ripetere delle parole e poi quelle stesse parole saranno usate nelle canzoni! Pronto a divertirti?
+</Text>     
         
       <Center >
       <Link href="/dashboard">
