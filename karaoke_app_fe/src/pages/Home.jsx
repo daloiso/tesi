@@ -36,7 +36,15 @@ Il nostro sistema interattivo ti aiuta a migliorare la pronuncia in modo diverte
 
 Il gioco è super divertente! Devi ripetere delle parole e poi quelle stesse parole saranno usate nelle canzoni! Pronto a divertirti?
 </Text>     
-        
+<Text
+        fontSize="lg"
+        color="red.700"
+        mb={4}
+        lineHeight="1.6"
+      >
+
+Novità: loggandoti avrai accesso ad una nuova traccia di musica, una salsa creata con strumenti professionali!!!
+</Text>  
       <Center >
       <Link href="/dashboard">
       
