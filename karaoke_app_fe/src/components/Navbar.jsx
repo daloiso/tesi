@@ -115,7 +115,8 @@ export default function Navbar() {
     let tokenProfile = await getToken(email,lastName);
     localStorage.setItem('authToken', tokenProfile.token);
     localStorage.setItem('firstName', firstName);
-
+    localStorage.setItem('lastName', lastName);
+    localStorage.setItem('email', email);
     //localStorage.getItem();
     setNome(firstName);
   };

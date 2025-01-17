@@ -206,3 +206,14 @@ class FilesView(APIView):
                                 status=status.HTTP_401_UNAUTHORIZED)
         return Response({"detail": "wrong parameters"},
                         status=status.HTTP_401_UNAUTHORIZED)
+
+
+class RichiesteView(APIView):
+    authentication_classes = [TokenAuthentication]  # Use Token Authentication
+    permission_classes = [IsAuthenticated, permission.OnlyMe]
+    def post(self, request):
+        if not request.user.is_authenticated:
+            return Response({"detail": "Authentication credentials were not provided."},
+                            status=status.HTTP_401_UNAUTHORIZED)
+        email = request.data.get('email')
+        return Response('OK', status=status.HTTP_200_OK)

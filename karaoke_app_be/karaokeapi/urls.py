@@ -18,5 +18,6 @@ urlpatterns = [
     path('activity/', views.ActivityView.as_view(), name='activity_view'),
     path('verse/', views.VerseView.as_view(), name='verse_view'),
     path('files/',views.FilesView.as_view(),name = 'files_view'),
+    path('richieste/',views.RichiesteView.as_view(),name = 'richieste_view'),
     path('', include(router.urls)),
 ]
