@@ -216,4 +216,10 @@ class RichiesteView(APIView):
             return Response({"detail": "Authentication credentials were not provided."},
                             status=status.HTTP_401_UNAUTHORIZED)
         email = request.data.get('email')
+        firstName = request.data.get('firstName')
+        lastName = request.data.get('lastName')
+        message = request.data.get('message')
+        genereMusicale = request.data.get('genereMusicale')
+
+
         return Response('OK', status=status.HTTP_200_OK)
