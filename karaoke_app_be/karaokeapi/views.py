@@ -220,6 +220,7 @@ class RichiesteView(APIView):
         lastName = request.data.get('lastName')
         message = request.data.get('message')
         genereMusicale = request.data.get('genereMusicale')
-
+        //karaoke4all_01!
+        //karaoke4all.ddns.net@gmail.com
 
         return Response('OK', status=status.HTTP_200_OK)
