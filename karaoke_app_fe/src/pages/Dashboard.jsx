@@ -93,6 +93,9 @@ export const tasksLoader = async () => {
     withCredentials: true,  
   })
     .then(response => {
+      if(!localStorage.getItem('firstName')){
+        response.data.pop();
+      }
       console.log('Data:', response.data);
       return json(response.data);
     })
