@@ -30,7 +30,8 @@ DEBUG = bool(int(os.environ.get('DEBUG',1)))
 ALLOWED_HOSTS = [
 
     '127.0.0.1',
-    'localhost'
+    'localhost',
+    'karaoke4all.ddns.net'
 ]
 
 
