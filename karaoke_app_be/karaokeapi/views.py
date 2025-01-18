@@ -1,5 +1,6 @@
 from io import BytesIO
 
+from django.core.mail import send_mail
 from gtts import gTTS
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -19,6 +20,7 @@ from karaokeapi.serializer import ActivitySerializer, KeyWordSongSerializer
 from django.http import FileResponse, HttpResponse
 from django.conf import settings
 import os
+import requests
 
 class UserProfileViewSet(viewsets.ModelViewSet):
     """Handle creating, creating and updating profiles"""
@@ -216,11 +218,19 @@ class RichiesteView(APIView):
             return Response({"detail": "Authentication credentials were not provided."},
                             status=status.HTTP_401_UNAUTHORIZED)
         email = request.data.get('email')
-        firstName = request.data.get('firstName')
-        lastName = request.data.get('lastName')
+        first_name = request.data.get('firstName')
+        last_name = request.data.get('lastName')
         message = request.data.get('message')
-        genereMusicale = request.data.get('genereMusicale')
-        //karaoke4all_01!
-        //karaoke4all.ddns.net@gmail.com
+        genere_musicale = request.data.get('genereMusicale')
 
-        return Response('OK', status=status.HTTP_200_OK)
+        message_complete = email+' '+first_name + ' ' + last_name + ' richiede una '+genere_musicale+' con questo testo: '+message
+
+
+        url = f"https://api.telegram.org/bot7884489444:AAHIWmJyg47YgTMrhFohgrLs3IrSaCn-ATw/sendMessage"
+        params = {
+            "chat_id": 611862177,
+            "text": message_complete,
+        }
+        response = requests.get(url, params=params)
+
+        return Response(response.json(), status=status.HTTP_200_OK)

@@ -18,3 +18,4 @@ gtts==2.5.4
 more-itertools
 ddsp==3.7.0
 #torch
+python-telegram-bot
