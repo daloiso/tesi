@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Modal,
   ModalContent,
@@ -19,15 +19,17 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 import { Spinner } from '@chakra-ui/react'
 import { FcOk } from "react-icons/fc";
 import Fuse from "fuse.js";
+import { ReactMediaRecorder } from 'react-media-recorder';
 
-export default function Player({ isOpen, onClose, title }) {
+export default function Player({ isOpen, onClose, title, record }) {
   const [loading, setLoading] = useState(false);
   const [audioSrc, setAudioSrc] = useState(null);
   const [text, setText] = useState(null);
   const [index, setIndex] = useState(0);
   const [isListening, setIsListening] = useState(false);
   const [isOK, setIsOK] = useState(false);
-
+  const startRecordingBtnRef = useRef(null);
+  const stopRecordingBtnRef = useRef(null);
   const { transcript, resetTranscript, listening } = useSpeechRecognition({
    
   });
@@ -39,6 +41,12 @@ export default function Player({ isOpen, onClose, title }) {
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    if (!loading && startRecordingBtnRef.current && record) {
+      startRecordingBtnRef.current.click(); // Trigger click on Start Recording button
+    }
+  }, [loading]);
+  
   useEffect(() => {
     if (transcript) {
       console.log("Transcript updated:", transcript);
@@ -80,7 +88,7 @@ export default function Player({ isOpen, onClose, title }) {
     try {
       let data = await verseLoader(title);
       setLoading(false); 
-
+      
       for (let i = 0; i < data.length; i++) {
         setText(data[i].word);  
         setIndex(i);
@@ -106,6 +114,9 @@ export default function Player({ isOpen, onClose, title }) {
           await delay(delayTime*1000);
           previousTime=data[i+1].time_word;
         }
+      }
+      if (stopRecordingBtnRef.current) {
+        stopRecordingBtnRef.current.click(); // Trigger click on Start Recording button
       }
     } catch (error) {
       console.error("Errore durante la chiamata al backend:", error);
@@ -165,6 +176,37 @@ export default function Player({ isOpen, onClose, title }) {
                     ]
                 }
                 />
+<div style={{ position: 'absolute', bottom: 200, left: 500, zIndex: 10, width:400 }}>
+<ReactMediaRecorder
+        video
+        audio
+       
+
+        onStop={(blobUrl) => {
+          const a = document.createElement('a');
+          a.href = blobUrl;
+          a.download = 'webcam-recording.webm';
+          a.click();
+        }}
+        render={({ status, startRecording, stopRecording, mediaBlobUrl }) => (
+          <div>
+            
+            <Button colorScheme="blue" onClick={startRecording} 
+             style={{ display:  'none' }} ref={startRecordingBtnRef} 
+            >
+                        Start Recording
+                      </Button>
+                      <Button colorScheme="red" onClick={stopRecording}
+                      style={{ display:  'none' }} ref={stopRecordingBtnRef} 
+                      >
+                        Stop Recording
+                      </Button>  
+          </div>
+          
+        )}
+      />
+</div>
+
             </Box>
           )}
         </ModalBody>

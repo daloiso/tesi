@@ -1,5 +1,7 @@
 import { FaRegPlayCircle } from "react-icons/fa";
 import { IoMdDownload } from "react-icons/io";
+import { SlCamrecorder } from "react-icons/sl";
+
 import ReactGA from "react-ga4";
 
 import { 
@@ -23,10 +25,26 @@ import React, { useState } from 'react';
 export default function Dashboard() {
   const tasks = useLoaderData()
   const [title, setTitle] = useState('Titolo iniziale');
+  const [record, setRecord] = useState(false);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const playMusicFun = (title) => {
     onOpen();
     setTitle(title);
+    setRecord(false);
+    if (process.env.NODE_ENV === "production") {
+      ReactGA.event({
+        category: 'Music',
+        action: 'Play Song',
+        label: title
+      });
+    }
+  }
+
+  const recordMusicFun = (title) => {
+    onOpen();
+    setTitle(title);
+    setRecord(true);
     if (process.env.NODE_ENV === "production") {
       ReactGA.event({
         category: 'Music',
@@ -63,7 +81,8 @@ export default function Dashboard() {
             <CardFooter>
               <HStack>
                 <Button variant="ghost" leftIcon={<FaRegPlayCircle />} onClick={() => playMusicFun(task.title)} >Play</Button>
-              
+                <Button variant="ghost" leftIcon={<SlCamrecorder />} onClick={() => recordMusicFun(task.title)} >Rec</Button>
+
                 <Button variant="ghost" leftIcon={<IoMdDownload />}  onClick={() => donwloadMusicFun(task.title)} >Download</Button>
               </HStack>
             </CardFooter>
@@ -73,7 +92,8 @@ export default function Dashboard() {
       </SimpleGrid>
       <Player isOpen={isOpen} 
         onClose={onClose} 
-        title={title} ></Player>
+        title={title}
+        record={record}  ></Player>
     </div>
   )
 }
