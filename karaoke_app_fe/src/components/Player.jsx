@@ -42,10 +42,15 @@ export default function Player({ isOpen, onClose, title, record }) {
   }, [isOpen]);
 
   useEffect(() => {
-    if (!loading && startRecordingBtnRef.current && record) {
-      startRecordingBtnRef.current.click(); // Trigger click on Start Recording button
+    if (!isOpen) {
+      if(record){
+        if (stopRecordingBtnRef.current) {
+          stopRecordingBtnRef.current.click()
+        }
+      }
+      onClose();
     }
-  }, [loading]);
+  }, [isOpen, onClose]);
   
   useEffect(() => {
     if (transcript) {
@@ -88,18 +93,20 @@ export default function Player({ isOpen, onClose, title, record }) {
     try {
       let data = await verseLoader(title);
       setLoading(false); 
-      
-      for (let i = 0; i < data.length; i++) {
-        setText(data[i].word);  
-        setIndex(i);
-        const voiceUrl = await downloadWorldUrl(title,data[i].word);
-        setAudioSrc(voiceUrl);
-        await delay(3000);
-        await startListening();
+      if(!record){
+        for (let i = 0; i < data.length; i++) {
+          setText(data[i].word);  
+          setIndex(i);
+          const voiceUrl = await downloadWorldUrl(title,data[i].word);
+          setAudioSrc(voiceUrl);
+          await delay(3000);
+          await startListening();
+        }
       }
       const audioUrl = await downloadMusicUrl(title);
       setAudioSrc(audioUrl);
       let previousTime = 0; 
+      
       for (let i = 0; i < data.length; i++) {
         setText(data[i].wordsToDisplay);
         console.log('qui'+i)
@@ -115,9 +122,7 @@ export default function Player({ isOpen, onClose, title, record }) {
           previousTime=data[i+1].time_word;
         }
       }
-      if (stopRecordingBtnRef.current) {
-        stopRecordingBtnRef.current.click(); // Trigger click on Start Recording button
-      }
+     
     } catch (error) {
       console.error("Errore durante la chiamata al backend:", error);
     } finally {
@@ -161,7 +166,26 @@ export default function Player({ isOpen, onClose, title, record }) {
               <AudioPlayer
                 autoPlay
                 src={audioSrc}
-                onPlay={(e) => console.log("onPlay")}
+                onPlay={(e) => 
+                  {
+                    if(record){
+                      if (stopRecordingBtnRef.current) {
+                        startRecordingBtnRef.current.click()
+                      }
+                    }
+                    console.log("onPlay")
+                  }
+                }
+                onEnded={(e)=>{
+                    if(record){
+                      if (stopRecordingBtnRef.current) {
+                        stopRecordingBtnRef.current.click()
+                      }
+                    }
+                  }
+                
+                
+              }
                 showJumpControls={false}
                 showDownloadProgress={false}
                 showFilledProgress={false}
@@ -211,7 +235,8 @@ export default function Player({ isOpen, onClose, title, record }) {
           )}
         </ModalBody>
         <ModalFooter>
-          <Button bg="buttonCustom" color="white" onClick={onClose}>
+          <Button bg="buttonCustom" color="white" onClick={
+            onClose}>
             Close
           </Button>
         </ModalFooter>
