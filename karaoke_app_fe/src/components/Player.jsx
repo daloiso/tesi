@@ -166,7 +166,7 @@ export default function Player({ isOpen, onClose, title, record }) {
               </HStack>
               )}
               {isRecording && (
-                <HStack><Text>Canta tu ora!! Sto registrando</Text></HStack>
+                <HStack><Text>Canta tu ora!! Sto registrando </Text></HStack>
               )
               }
               {!isRecording && (
