@@ -27,6 +27,7 @@ export default function Player({ isOpen, onClose, title, record }) {
   const [text, setText] = useState(null);
   const [index, setIndex] = useState(0);
   const [isListening, setIsListening] = useState(false);
+  const [isRecording, setRecording] = useState(false);
   const [isOK, setIsOK] = useState(false);
   const startRecordingBtnRef = useRef(null);
   const stopRecordingBtnRef = useRef(null);
@@ -49,6 +50,12 @@ export default function Player({ isOpen, onClose, title, record }) {
         }
       }
       onClose();
+    }else{
+      if(record){
+        setRecording(true);
+      }else{
+        setRecording(false);
+      }
     }
   }, [isOpen, onClose]);
   
@@ -158,6 +165,14 @@ export default function Player({ isOpen, onClose, title, record }) {
                   )}
               </HStack>
               )}
+              {isRecording && (
+                <HStack><Text>Canta tu ora!! Sto registrando</Text></HStack>
+              )
+              }
+              {!isRecording && (
+                <HStack><Text>Ripeti le parole che ascolti e poi canta</Text></HStack>
+              )
+              }
               <ImageSlider
                 index={index}
                 title={title}

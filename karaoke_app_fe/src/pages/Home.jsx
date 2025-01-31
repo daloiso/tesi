@@ -1,10 +1,17 @@
 import { Image,Center, Box } from '@chakra-ui/react'
 import ReactGA from "react-ga4";
+import { keyframes } from "@emotion/react";
+
 import { Link, Text } from '@chakra-ui/react'
 export default function Home() {
     if (process.env.NODE_ENV === "production") {
       ReactGA.send({ hitType: "pageview", page: "/", title: "Home" });
     }
+    const blink = keyframes`
+    0% { color: green; opacity: 1; }
+    50% { color: blue; opacity: 1; }
+    100% { color: green; opacity: 1; }
+  `;
     return (
       <Box><Text 
       fontSize="2xl" 
@@ -49,11 +56,16 @@ Novità: loggandoti avrai accesso ad una nuova traccia di musica, una salsa crea
       <Link href="/dashboard">
       
       <Text
-        fontSize="md"
-        color="gray.600"
-        textAlign="center"
-        mb={6}
-      >Prova subito cliccando sull'immagine</Text>
+    fontSize="xl"
+    fontWeight="bold"
+    color="red"
+   
+    p={3}
+    textAlign="center"
+    mb={6}
+   
+    animation={`${blink} 1s infinite`} // Animazione di lampeggio
+  >Prova subito il karaoke cliccando sull'immagine</Text>
         <Image  borderRadius='full' src='/img/microphone.jpg' alt='karaoke'  maxW="300px"    
               maxH="300px"       />
         
