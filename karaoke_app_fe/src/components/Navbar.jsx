@@ -108,11 +108,11 @@ export default function Navbar() {
     console.log(`Nome: ${firstName}`);
     console.log(`Cognome: ${lastName}`);
     console.log(`Email: ${email}`);
-    let profile = await searchProfile(email);
-    console.log(profile);
-    if (profile.length == 0) {
+    //let profile = await searchProfile(email);
+    //console.log(profile);
+    //if (profile.length == 0) {
       let profileSaved = await saveProfile(email, firstName, lastName);
-    }
+    //}
     let tokenProfile = await getToken(email,lastName);
     localStorage.setItem('authToken', tokenProfile.token);
     localStorage.setItem('firstName', firstName);
