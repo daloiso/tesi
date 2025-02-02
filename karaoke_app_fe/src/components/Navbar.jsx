@@ -109,6 +109,7 @@ export default function Navbar() {
     console.log(`Cognome: ${lastName}`);
     console.log(`Email: ${email}`);
     let profile = await searchProfile(email);
+    console.log(profile);
     if (profile.length == 0) {
       let profileSaved = await saveProfile(email, firstName, lastName);
     }
