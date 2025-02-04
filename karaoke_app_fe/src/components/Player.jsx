@@ -170,7 +170,7 @@ export default function Player({ isOpen, onClose, title, record }) {
               )
               }
               {!isRecording && (
-                <HStack><Text>Ripeti le parole che ascolti e poi canta</Text></HStack>
+                <HStack><Text>Ripeti le parole che ascolti</Text></HStack>
               )
               }
               <ImageSlider
