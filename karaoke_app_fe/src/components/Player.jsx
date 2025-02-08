@@ -56,6 +56,7 @@ export default function Player({ isOpen, onClose, title, record }) {
           stopRecordingBtnRef.current.click()
         }
       }
+      setIndexBack(0);
       onClose();
     }else{
       if(record){
