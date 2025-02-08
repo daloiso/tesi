@@ -28,12 +28,19 @@ export default function Player({ isOpen, onClose, title, record }) {
   const [index, setIndex] = useState(0);
   const [isListening, setIsListening] = useState(false);
   const [isRecording, setRecording] = useState(false);
+  const [isBack, setBack] = useState(false);
+  const [indexBack, setIndexBack] = useState(0);
+  const indexBackRef = useRef(indexBack); // Use a ref to track the latest indexBack value
   const [isOK, setIsOK] = useState(false);
   const startRecordingBtnRef = useRef(null);
   const stopRecordingBtnRef = useRef(null);
   const { transcript, resetTranscript, listening } = useSpeechRecognition({
    
   });
+
+  useEffect(() => {
+    indexBackRef.current = indexBack;
+  }, [indexBack]);
 
   useEffect(() => {
     if (isOpen) {
@@ -85,7 +92,7 @@ export default function Player({ isOpen, onClose, title, record }) {
     setIsListening(true);
 
     // Wait for 7 seconds while listening
-    await delay(7000);
+    await delay(9000);
 
     // Stop listening after 7 seconds
     SpeechRecognition.stopListening();
@@ -94,6 +101,15 @@ export default function Player({ isOpen, onClose, title, record }) {
     setIsOK(false)
   };
 
+  const onBack=()=>{
+    
+    if((index-(indexBack))>0){
+      setBack(true);
+    }else{
+      setBack(false);
+    }
+    setIndexBack(indexBack+1);
+  }
 
   const fetchDataFromBackend = async () => {
     setLoading(true); // Imposta lo stato di caricamento
@@ -101,14 +117,23 @@ export default function Player({ isOpen, onClose, title, record }) {
       let data = await verseLoader(title);
       setLoading(false); 
       if(!record){
-        for (let i = 0; i < data.length; i++) {
-          setText(data[i].word);  
-          setIndex(i);
-          const voiceUrl = await downloadWorldUrl(title,data[i].word);
+        
+        for (let i = 0; i < data.length+indexBackRef.current; i++) {
+          if((i-indexBackRef.current)>0){
+            setBack(true);
+          }else{
+            setBack(false);
+          }
+          let indexCurr = (i-indexBackRef.current)>=0?(i-indexBackRef.current):0;
+          setText(data[indexCurr].word);  
+          setIndex(indexCurr);
+          const voiceUrl = await downloadWorldUrl(title,data[indexCurr].word);
           setAudioSrc(voiceUrl);
           await delay(3000);
           await startListening();
         }
+        setBack(false);
+        setIndexBack(0)
       }
       const audioUrl = await downloadMusicUrl(title);
       setAudioSrc(audioUrl);
@@ -250,9 +275,15 @@ export default function Player({ isOpen, onClose, title, record }) {
           )}
         </ModalBody>
         <ModalFooter>
+        {isBack ? (
+          <Button bg="buttonCustom" color="white" marginRight="5" onClick={
+            onBack}>
+            Torna indietro
+          </Button>
+        ):""}
           <Button bg="buttonCustom" color="white" onClick={
             onClose}>
-            Close
+            Chiudi
           </Button>
         </ModalFooter>
       </ModalContent>
