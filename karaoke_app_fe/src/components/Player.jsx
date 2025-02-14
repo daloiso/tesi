@@ -120,7 +120,7 @@ export default function Player({ isOpen, onClose, title, record }) {
       if(!record){
         
         for (let i = 0; i < data.length+indexBackRef.current; i++) {
-          if((i-indexBackRef.current)>0){
+          if((i-indexBackRef.current)>=0){
             setBack(true);
           }else{
             setBack(false);
