@@ -50,7 +50,7 @@ Il gioco è super divertente! Devi ripetere delle parole e poi quelle stesse par
         lineHeight="1.6"
       >
 
-Novità: loggandoti avrai accesso ad una nuova traccia di musica, una salsa creata con strumenti professionali!!!
+Novità: loggandoti avrai accesso ad una nuova traccia di musica, una salsa creata con strumenti professionali e a canzoni reali!!!
 </Text>  
       <Center >
       <Link href="/dashboard">
