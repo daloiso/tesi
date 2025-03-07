@@ -115,6 +115,7 @@ export const tasksLoader = async () => {
     .then(response => {
       if(!localStorage.getItem('firstName')){
         response.data.pop();
+        response.data.pop();
       }
       console.log('Data:', response.data);
       return json(response.data);
